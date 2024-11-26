@@ -9,13 +9,20 @@ import { searchProducts } from '../Redux/slice/productSlice'
 function Header({insideHome}) {
 
   const dispatch=useDispatch()
-  const {wishlist}=useSelector(state=>state.WishListReducer)
   const[count,SetCount]=useState(0)
+  const[cartCount,setCartCount]=useState(0)
+  const {wishlist}=useSelector(state=>state.WishListReducer)
+  const cart=useSelector(state=>state.cartReducer)
+  
+
+
+
 
 
   useEffect(()=>{
     SetCount(wishlist.length)
-  },[wishlist])
+    setCartCount(cart.length)
+  },[wishlist,cart])
   return (
     <>
       
@@ -45,7 +52,7 @@ function Header({insideHome}) {
 
             <Nav.Link href="#link">
             <Link to={'./cart'} style={{textDecoration:'none',color:"black",fontWeight:"bold"}}><i class="fa-solid fa-cart-shopping text-warning me-2"></i>Cart
-              <Badge bg='sucess rounded ms-2'>0</Badge>
+              <Badge bg='success rounded ms-2'>{cartCount}</Badge>
               </Link>
             </Nav.Link>
           </Nav>

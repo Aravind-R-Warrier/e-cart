@@ -11,6 +11,8 @@ function View() {
   const dispatch=useDispatch()
 
   const {wishlist}=useSelector(state=>state.WishListReducer)
+  const cart=useSelector(state=>state.cartReducer)
+
 
   useEffect(()=>{
     if(localStorage.getItem("allProducts")){
@@ -27,6 +29,18 @@ function View() {
       alert("product already exists")
     }else{
       dispatch(addToWishlist(product))
+    }
+  }
+
+  const handleCart=(product)=>{
+    const existingProduct=cart?.find(item=>item.id==product.id)
+
+    if(existingProduct){
+      alert('items addedd')
+      dispatch(addToCart(product))
+    }else{
+      alert ('item added')
+      dispatch(addToCart(product))
     }
   }
 
@@ -47,8 +61,9 @@ function View() {
         <p>{product?.description}</p>
            <h3>price: <span className='text-danger'>{product?.price}</span></h3>
            <div className="d-flex justify-content-between">
-           <Button className='btn btn-outline-info ' onClick={()=>handleWishList(product)}><i class="fa-solid fa-cart-plus text-info me-2"></i></Button>
-        <Button className='btn btn-outline-warning '><i class="fa-solid fa-trash text-danger me-2"></i></Button>
+           <Button className='btn btn-outline-info ' onClick={()=>handleWishList(product)}><i class="fa-solid fa-heart text-warning me-2">wishlist</i></Button>
+           <Button className='btn btn-light ' onClick={()=>handleCart(product)}><i class="fa-solid fa-cart-plus text-info me-2">cart</i></Button>
+
         </div>
       </div>
     </div>

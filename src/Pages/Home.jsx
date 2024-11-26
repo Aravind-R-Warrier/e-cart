@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom'
 import { fetchProducts } from '../Redux/slice/productSlice'
 import Header from '../Components/Header'
 import { addToWishlist } from '../Redux/slice/wishListSlice'
+import { addToCart } from '../Redux/slice/cartSlice'
 
 
 
@@ -16,6 +17,8 @@ function Home() {
 
   const{allproducts,loading,error}=useSelector(state=>state.productReducer)
   const {wishlist}=useSelector(state=>state.WishListReducer)
+  const cart=useSelector(state=>state.cartReducer)
+ 
 
 
   useEffect(()=>{
@@ -30,6 +33,20 @@ function Home() {
       dispatch(addToWishlist(product))
     }
   }
+
+
+  const handleCart=(product)=>{
+    const existingProduct=cart?.find(item=>item.id==product.id)
+
+    if(existingProduct){
+      alert('items addedd')
+      dispatch(addToCart(product))
+    }else{
+      alert ('item added')
+      dispatch(addToCart(product))
+    }
+  }
+
 
   return (
    <>
@@ -53,7 +70,7 @@ function Home() {
            </Card.Text>
            <div className="d-flex justify-content-between">
            <Button className='btn btn-light ' onClick={()=>handleWishList(product)}><i class="fa-solid fa-heart text-danger me-2"></i></Button>
-          <Button className='btn btn-light ' ><i class="fa-solid fa-cart-shopping text-warning me-2"></i></Button>
+          <Button className='btn btn-light 'onClick={()=>handleCart(product)} ><i class="fa-solid fa-cart-shopping text-warning me-2"></i></Button>
            </div>
          </Card.Body>
        </Card>
